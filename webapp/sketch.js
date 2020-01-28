@@ -291,6 +291,14 @@ class Chord {
   setDuration(dur) {
     this.duration = dur;
   }
+
+  send() {
+    var chord = [];
+    for(let n = 0; n < this.notes.length; n++) {
+      chord.push(this.notes[n].n);
+    }
+    console.log(chord);
+  }
 }
 
 class Progression {
@@ -539,7 +547,7 @@ var tick = 0;
 var beat = 0;
 
 function handleClock(e) {
-  console.log('clock');
+  //console.log('clock');
   if(progression) {
     tick++;
     if(tick == 24) {
@@ -554,7 +562,7 @@ function handleClock(e) {
 }
 
 function handleStart(e) {
-  console.log('start');
+  //console.log('start');
   if(progression) {
     tick = 0;
     beat = 0;
@@ -563,11 +571,11 @@ function handleStart(e) {
 }
 
 function handleStop(e) {
-  console.log('stop');
+  //console.log('stop');
 }
 
 function handleContinue(e) {
-  console.log('continue');
+  //console.log('continue');
 }
 
 function handleSongposition(e) {
@@ -593,6 +601,7 @@ function handleSongposition(e) {
       tick = tic;
       beat = bea;
       chordCursor = chp;
+      progression.chords[chordCursor].send();
     }
   }
 }
@@ -613,6 +622,7 @@ function disableMidi() {
 function nextChord() {
   chordCursor++;
   chordCursor %= progression.chords.length;
+  progression.chords[chordCursor].send();
 }
 
 function prevChord() {
@@ -620,10 +630,12 @@ function prevChord() {
   if(chordCursor < 0) {
     chordCursor += progression.chords.length;
   }
+  progression.chords[chordCursor].send();
 }
 
 function firstChord() {
   chordCursor = 0;
+  progression.chords[chordCursor].send();
 }
 
 function keyPressed() {
