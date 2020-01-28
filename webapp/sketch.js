@@ -60,30 +60,6 @@ var fileInput;
 
 var chordCursor = 0;
 
-var scaleByFunction = [["augmented ionian",
-                        "augmented lydian"],
-                       ["harmonic major",
-                        "ionian",
-                        "lydian",
-                        "lydian #9"],
-                       ["altered",
-                        "mixolydian b9 b13",
-                        "mixolydian b13",
-                        "mixolydian",
-                        "lydian dominant"],
-                       ["dorian #11",
-                        "dorian",
-                        "dorian b9",
-                        "phrygian",
-                        "aeolian",
-                        "harmonic minor",
-                        "melodic minor"],
-                       ["altered",
-                        "half diminished",
-                        "locrian",
-                        "locrian #13"],
-                       ["diatonic diminished"]];
-
 function deg(d)
 {
 	return ((d-1) % 7 + 7) % 7 + 1;
@@ -122,25 +98,6 @@ function ndtToDeg(n) {
     case 9: return 6;
     case 11:return 7;
     default: return false;
-  }
-}
-
-function degToColor(d,light=false) {
-  if(light) {
-    switch(d) {
-      case 1:  return 41;
-      case 3:  return 25;
-      case 5:  return 60;
-      case 7:  return 13;
-      default: return 0;//70;
-    }
-  }
-  switch(d) {
-    case 1:  return [109,158,235];
-    case 3:  return [146,196,125];
-    case 5:  return [224,102,101];
-    case 7:  return [254,217,102];
-    default: return [217,217,217];
   }
 }
 
@@ -403,6 +360,8 @@ class Progression {
           text(chord.name,x+wb/5,y-w0/250,w-wb/5,h);
           cho++;
         }
+
+        text('.',x0 + col*wb+wb/5,y0 + row*h,50,50);
         dur--;
       }
     }
@@ -627,9 +586,6 @@ function handleSongposition(e) {
       tick = tic;
       beat = bea;
       chordCursor = chp;
-      if(midi) {
-        progression.chords[chordCursor].scale.send();
-      }
     }
   }
 }
@@ -650,9 +606,6 @@ function disableMidi() {
 function nextChord() {
   chordCursor++;
   chordCursor %= progression.chords.length;
-  if(midi) {
-    progression.chords[chordCursor].scale.send();
-  }
 }
 
 function prevChord() {
@@ -660,16 +613,10 @@ function prevChord() {
   if(chordCursor < 0) {
     chordCursor += progression.chords.length;
   }
-  if(midi) {
-    progression.chords[chordCursor].scale.send();
-  }
 }
 
 function firstChord() {
   chordCursor = 0;
-  if(midi) {
-    progression.chords[chordCursor].scale.send();
-  }
 }
 
 function keyPressed() {
