@@ -298,7 +298,6 @@ class Chord {
       chord.push(this.notes[n].n);
     }
 	  const midiJson = { chord: chord }
-		console.log("THIS IS JSON", midiJson);
   	socket.emit('midi', midiJson)
   }
 }
