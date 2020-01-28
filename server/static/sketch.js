@@ -438,7 +438,7 @@ function handleFile(file) {
 }
 
 function preload() {
-  font = loadFont('nunito.ttf');
+  font = loadFont('/static/nunito.ttf');
 }
 
 function setup() {
