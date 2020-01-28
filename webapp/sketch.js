@@ -312,7 +312,6 @@ class Progression {
         }
         let dur = c-s;
         nbrBeat += dur;
-        console.log('c:'+c+' s:'+s);
         this.chords[this.chords.length-1].setDuration(dur);
         var chord = this.chords[this.chords.length-1];
       }
@@ -413,9 +412,18 @@ function drawMidiButton() {
 }
 
 function handleFile(file) {
-  var standardFile = file.data.split('\n');
+  var standardFile = '';
+  if(navigator.appVersion.search('Windows') >= 0) {
+    standardFile = file.data.split('\r\n');
+  }
+  else if(navigator.appVersion.search('Mac') >= 0) {
+    standardFile = file.data.split('\n');
+  }
+  else {
+    console.log('OS non reconnue');
+  }
   for(var l = 0; l < standardFile.length; l++) {
-    standardFile[l] = standardFile[l].slice(0,standardFile[l].length-1);
+    standardFile[l] = standardFile[l].slice(0,standardFile[l].length);
   }
   progression = new Progression(standardFile);
   fileInput.hide();
