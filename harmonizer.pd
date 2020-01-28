@@ -509,6 +509,7 @@ goes from one end to the other.;
 #X connect 55 0 0 0;
 #X connect 57 0 23 1;
 #X connect 58 0 17 1;
+<<<<<<< HEAD
 #X restore 509 475 pd root;
 #X obj 491 507 +~;
 #X floatatom 313 374 5 0 0 0 - - -;
@@ -521,6 +522,25 @@ goes from one end to the other.;
 #X floatatom 210 273 5 0 0 0 - - -;
 #X floatatom 251 273 5 0 0 0 - - -;
 #X obj 62 121 mrpeach/udpreceive 3000;
+=======
+#X restore 386 476 pd root;
+#X obj 368 508 +~;
+#X floatatom 201 357 5 0 0 0 - - -;
+#X obj 201 332 -;
+#X obj 134 514 mrpeach/udpsend;
+#X msg 134 427 connect localhost 3000;
+#X msg 181 475 send 1 2 3;
+#X msg 36 427 disconnect;
+#X obj 15 111 mrpeach/unpackOSC;
+#X obj 15 142 route /chords;
+#X obj 18 188 unpack f f f f;
+#X floatatom 51 272 5 0 0 0 - - -;
+#X floatatom 93 272 5 0 0 0 - - -;
+#X floatatom 135 272 5 0 0 0 - - -;
+#X floatatom 176 272 5 0 0 0 - - -;
+#X obj 15 67 mrpeach/udpreceive 3000;
+#X obj 15 345 print /chords;
+>>>>>>> Small updates to server
 #X connect 0 0 20 0;
 #X connect 1 0 4 1;
 #X connect 2 0 1 1;
