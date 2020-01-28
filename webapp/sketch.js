@@ -312,36 +312,29 @@ class Chord {
       case 'm7'   : this.newNote(3,-1);
         						this.newNote(5);
         						this.newNote(7,-1);
-                    this.setScale('dorian');
         						break;
       case 'm9'		: this.newNote(3,-1);
         						this.newNote(5);
         						this.newNote(7,-1);
         						this.newNote(9);
-                    this.setScale('dorian');
         						break;
       case 'mmaj7': this.newNote(3,-1);
         						this.newNote(5);
         						this.newNote(7);
-                    this.setScale('melodic minor');
         						break;
     	case '+'		: this.newNote(3);
         						this.newNote(5,1);
-                    this.setScale('aug. lydian');
         						break;
       case 'o'		: this.newNote(3,-1);
         						this.newNote(5,-1);
-                    this.setScale('diatonic diminished');
         						break;
       case 'm7b5' : this.newNote(3,-1);
         						this.newNote(5,-1);
         						this.newNote(7,-1);
-                    this.setScale('half diminished');
         						break;
       case 'o7'   : this.newNote(3,-1);
         						this.newNote(5,-1);
         						this.newNote(7,-2);
-                    this.setScale('diatonic diminished');
     }
   }
 
@@ -349,196 +342,8 @@ class Chord {
     this.notes.push(this.notes[0].newNote(d,a));
   }
 
-  setScale(name) {
-    for(var t = 0; t < scaleByFunction.length; t++) {
-      for(var j = 0; j < scaleByFunction[t].length; j++) {
-        if(name == scaleByFunction[t][j]) {
-          this.scale = new Scale(this.notes[0],name);
-          this.type = t;
-          this.jazz = j;
-          return;
-        }
-      }
-    }
-    console.log('scale not found: '+name);
-    this.setScale('ionian');
-  }
-
-  changeScale(up=true) {
-    var j = this.jazz + (up?1:(-1));
-    if(j >= 0 && j < scaleByFunction[this.type].length) {
-      this.scale = new Scale(this.notes[0],scaleByFunction[this.type][j]);
-      this.jazz = j;
-      if(midi) {
-        this.scale.send();
-      }
-      console.log('yes');
-    }
-    console.log('type: '+this.type+' jazz: '+this.jazz);
-  }
-
   setDuration(dur) {
     this.duration = dur;
-  }
-}
-
-class Scale {
-	constructor(note,s) {
-    this.name = s;
-    var a = [0,0,0,0,0,0,0];
-    switch(s) {
-      case 'majeur':
-      case 'ionien':
-      case 'major':
-      case 'maj7' :
-        break;
-      case 'dorien':
-      case 'dorian':
-        a[2]--;
-        a[6]--;
-      	break;
-      case 'phrygien':
-      case 'phrygian':
-        a[1]--;
-        a[2]--;
-        a[5]--;
-        a[6]--;
-      	break;
-      case 'lydien':
-      case 'lydian':
-        a[3]++;
-        break;
-      case 'mixolydien':
-      case 'mixolydian':
-        a[6]--;
-        break;
-      case 'mineur':
-      case 'mineur naturel':
-      case 'aeolien':
-      case 'minor':
-      case 'natural minor' :
-      case 'aeolian' :
-        a[2]--;
-        a[5]--;
-        a[6]--;
-        break;
-      case 'locrien':
-      case 'locrian':
-        a[1]--;
-        a[2]--;
-        a[4]--;
-        a[5]--;
-        a[6]--;
-        break;
-      case 'mineur melodique' :
-      case 'melodic minor' :
-        a[2]--;
-      	break;
-      case 'dorien b9' :
-      case 'dorian b9' :
-        a[1]--;
-        a[2]--;
-        a[6]--;
-        break;
-      case 'lydien augmente' :
-      case 'aug. lydian' :
-        a[3]++;
-        a[4]++;
-        break;
-      case 'lydien dominant' :
-      case 'lydian dominant' :
-        a[3]++;
-        a[6]--;
-        break;
-      case 'mixolydien b13' :
-      case 'mixolydian b13' :
-        a[5]--;
-        a[6]--;
-        break;
-      case 'demi diminue' :
-      case 'half diminished' :
-        a[2]--;
-        a[4]--;
-        a[5]--;
-        a[6]--;
-        break;
-      case 'super locrien' :
-      case 'altere' :
-      case 'super locrian' :
-      case 'altered' :
-        a[1]--;
-        a[2]--;
-        a[3]--;
-        a[4]--;
-        a[5]--;
-        a[6]--;
-        break;
-      case 'mineur harmonique' :
-      case 'harmonic minor' :
-        a[2]--;
-        a[5]--;
-        break;
-      case 'locrien #13' :
-      case 'locrian #13' :
-        a[1]--;
-        a[2]--;
-        a[4]--;
-        a[6]--;
-        break;
-      case 'ionien augmente' :
-      case 'aug. ionian' :
-        a[4]++;
-        break;
-      case 'dorien #11' :
-      case 'dorian #11' :
-        a[2]--;
-        a[3]++;
-        a[6]--;
-        break;
-      case 'mixolydian b9 b13' :
-        a[1]--;
-        a[5]--;
-        a[6]--;
-        break;
-      case 'lydien #9' :
-      case 'lydian #9' :
-        a[1]++;
-        a[3]++;
-        break;
-      case 'diminue' :
-      case 'diatonic diminished' :
-        a[1]--;
-        a[2]--;
-        a[3]--;
-        a[4]--;
-        a[5]--;
-        a[6]-=2;
-        break;
-      case 'harmonic major' :
-        a[5]--;
-        break;
-    }
-    this.notes = [];
-    var d;
-    var n;
-    for(var i = 0; i < a.length; i++) {
-      d = note.d+i;
-      n = ndt(degToNdt(i+1)+degToNdt(note.d)+note.alt()+a[i]);
-      this.notes.push(new Note(d,n-degToNdt(d)));
-    }
-    /*if(s == 'altered') {
-      this.notes[2].enharm(false);
-      this.notes[3].enharm(false);
-      this.notes[4].enharm(false);
-    }*/
-  }
-
-  send() {
-    if(midi) {
-      for(let n = 0; n < 7; n++) {
-        midiOutput.send(noteOnStatus+1,[this.notes[0].n+ndt(this.notes[n].n-this.notes[0].n),this.notes[n].d]);
-      }
-    }
   }
 }
 
@@ -615,119 +420,6 @@ class Progression {
   }
 }
 
-function parseChord(openName) {
-  var name = '';
-  var length = openName.length;
-  switch(openName[0]) {
-    case 'a': name += 'A'; break;
-    case 'b': name += 'B'; break;
-    case 'c': name += 'C'; break;
-    case 'd': name += 'D'; break;
-    case 'e': name += 'E'; break;
-    case 'f': name += 'F'; break;
-    case 'g': name += 'G'; break;
-    default: return;
-  }
-  var c = 1;
-  if(length >= 3) {
-    var alt = openName.substring(c,c+2);
-    if(alt == 'es') {
-      name += 'b';
-      c += 2;
-    }
-    else if(alt == 'is') {
-      name += '#';
-      c += 2;
-    }
-  }
-  while(c < length && openName[c] != ':') {
-    c++;
-  }
-  if(c == length) {
-    return name;
-  }
-  switch(openName.substring(c,length)) {
-    case '':
-    case '5':
-      name += '';
-      break;
-    case 'm':
-    case 'm5':
-      name += 'm';
-      break;
-    case 'aug':
-      name += '+';
-      break;
-    case 'dim':
-      name += 'o';
-      break;
-    case '7':
-      name += '7';
-      break;
-    case 'maj':
-    case 'maj7':
-      name += 'maj7';
-      break;
-    case 'm7':
-      name += 'm7';
-      break;
-    case 'dim7':
-      name += 'o7';
-      break;
-    case 'aug7':
-      name += '7#5';
-      break;
-    case 'm7.5-':
-      name += 'm7b5';
-      break;
-    case 'm7+':
-      name += 'mmaj7';
-      break;
-    case '6':
-      name += '6';
-      break;
-    case 'm6':
-      name += 'm6';
-      break;
-    case '9':
-      name += '9';
-      break;
-    case 'maj9':
-      name += 'maj9';
-      break;
-    case 'm9':
-      name += 'm9';
-      break;
-    case '11':
-      name += '11';
-      break;
-    case 'maj11':
-      name += 'maj11';
-      break;
-    case 'm11':
-      name += 'm11';
-      break;
-    case '13':
-      name += '913';
-      break;
-    case '13.11':
-      name += '13';
-      break;
-    case 'maj13.11':
-      name += 'maj13';
-      break;
-    case 'm13.11':
-      name += 'm13';
-      break;
-    case 'sus2':
-      name += 'sus2';
-      break;
-    case 'sus4':
-      name += 'sus4';
-      break;
-  }
-}
-
 function initMidiButton() {
   midiButton = new Clickable();
   midiButton.color = grey;
@@ -784,9 +476,6 @@ function handleFile(file) {
 
 function preload() {
   font = loadFont('nunito.ttf');
-
-  //openbook = loadStrings('openbook.ly');
-  //standardFile = loadStrings('all_of_me.txt');
 }
 
 function setup() {
@@ -804,49 +493,6 @@ function setup() {
 
   fileInput = createFileInput(handleFile);
   fileInput.position(0, 0);
-
-  /*for(c = 0; c < progression.chords.length; c++) {
-    console.log(progression.chords[c].name,' ',progression.chords[c].duration);
-  }*/
-
-  /*var standardList;
-
-  for(let s = 0; s < openbook.length; s++) {
-    if(openbook[s].includes('tocItem')) {
-      var name = openbook[s].substring(openbook[s].indexOf('"')+1,openbook[s].indexOf('/')-1);
-      //standardList += openbook[s].substring(openbook[s].indexOf('"')+1,openbook[s].indexOf('/')-1) + '\n';
-      if(name.includes('All Of Me')) {
-        while(!openbook[s].includes('chordmode')) {
-          s++;
-        }
-        s++;
-        var duree = 0;
-        while(!openbook[s].includes('endChords')) {
-          var line = openbook[s];
-          var c = 0;
-          while(c < line.length) {
-            if(line[c] == 'a' ||
-               line[c] == 'b' ||
-               line[c] == 'c' ||
-               line[c] == 'd' ||
-               line[c] == 'e' ||
-               line[c] == 'f' ||
-               line[c] == 'g'){
-              console.log('oui');
-              var c2 = c;
-              while(line[c2] != ' ' && c2 < line.length) {
-                c2++;
-              }
-              console.log((line.substring(c,c2+2)));
-            }
-            c++;
-          }
-          s++;
-        }
-      }
-    }
-  }*/
-  //window.alert(standardList);
 }
 
 function draw() {
