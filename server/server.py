@@ -4,13 +4,15 @@ from flask_socketio import SocketIO, send, emit
 from osc import Client
 
 app = Flask(__name__)
+app.config['DEBUG'] = True
+app.config['ENV'] = 'development'
 
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # to keep track of active clients
 clients = []
 
-client = Client()
+client = Client("127.0.0.1", 3000) # change with local external ip if necessary in Pd
 print("Setting up OSC client at", client.ip, "and port", client.port)
 
 
@@ -52,8 +54,9 @@ def handle_disconnect():
 
 
 if __name__ == '__main__':
-    # print('Flask configs', app.config)
-    host = "127.0.0.1"
+    print('Flask configs', app.config)
+    # host = "127.0.0.1"
+    host = "0.0.0.0"
     port = 5000
     print("Setting up web server on", host, "at port", port)
     socketio.run(
