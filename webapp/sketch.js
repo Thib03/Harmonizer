@@ -312,7 +312,7 @@ class Progression {
         }
         let dur = c-s;
         nbrBeat += dur;
-        console.log(dur);
+        console.log('c:'+c+' s:'+s);
         this.chords[this.chords.length-1].setDuration(dur);
         var chord = this.chords[this.chords.length-1];
       }
@@ -361,7 +361,6 @@ class Progression {
           text(chord.name,x+wb/5,y-w0/250,w-wb/5,h);
           cho++;
         }
-        text('.',x0 + col*wb+wb/5,y0 + row*h,50,50);
         dur--;
       }
     }
