@@ -22,10 +22,13 @@ def hello():
 # event used to parse the MIDI data from the socket connection
 @socketio.on('midi')
 def handle_midi(json):
-    # key = json['key']
-    print("\n")
-    client.send("THIS IS FROM THE SERVER")
-    return "Success"
+    chord = json['chord']
+    if chord:
+        print("Chord received", chord)
+        client.send(chord, "/chords")
+        return "Success"
+    else:
+        return "Failure"
 
 
 # incoming unnamed message events
@@ -38,7 +41,6 @@ def handle_message(message):
 @socketio.on('connect')
 def handle_connect():
     print("Client connected with ID: " + request.sid)
-    clients.append(request.sid)
     pass
 
 
@@ -46,7 +48,6 @@ def handle_connect():
 @socketio.on('disconnect')
 def handle_disconnect():
     print("Client disconnected with ID: " + request.sid)
-    clients.remove(request.sid)
     pass
 
 
