@@ -784,9 +784,6 @@ function handleFile(file) {
 
 function preload() {
   font = loadFont('nunito.ttf');
-
-  //openbook = loadStrings('openbook.ly');
-  //standardFile = loadStrings('all_of_me.txt');
 }
 
 function setup() {
@@ -804,49 +801,6 @@ function setup() {
 
   fileInput = createFileInput(handleFile);
   fileInput.position(0, 0);
-
-  /*for(c = 0; c < progression.chords.length; c++) {
-    console.log(progression.chords[c].name,' ',progression.chords[c].duration);
-  }*/
-
-  /*var standardList;
-
-  for(let s = 0; s < openbook.length; s++) {
-    if(openbook[s].includes('tocItem')) {
-      var name = openbook[s].substring(openbook[s].indexOf('"')+1,openbook[s].indexOf('/')-1);
-      //standardList += openbook[s].substring(openbook[s].indexOf('"')+1,openbook[s].indexOf('/')-1) + '\n';
-      if(name.includes('All Of Me')) {
-        while(!openbook[s].includes('chordmode')) {
-          s++;
-        }
-        s++;
-        var duree = 0;
-        while(!openbook[s].includes('endChords')) {
-          var line = openbook[s];
-          var c = 0;
-          while(c < line.length) {
-            if(line[c] == 'a' ||
-               line[c] == 'b' ||
-               line[c] == 'c' ||
-               line[c] == 'd' ||
-               line[c] == 'e' ||
-               line[c] == 'f' ||
-               line[c] == 'g'){
-              console.log('oui');
-              var c2 = c;
-              while(line[c2] != ' ' && c2 < line.length) {
-                c2++;
-              }
-              console.log((line.substring(c,c2+2)));
-            }
-            c++;
-          }
-          s++;
-        }
-      }
-    }
-  }*/
-  //window.alert(standardList);
 }
 
 function draw() {
