@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head>
+    <script src="/static/p5.js"></script>
+    <script src="/static/p5.dom.min.js"></script>
+    <script src="/static/p5.sound.js"></script>
+    <script src="/static/p5.clickable.js"></script>
+    <script src="/static/webmidi.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="shortcut icon" href="degrees.ico">
+    <title>Progression</title>
+    <meta charset="utf-8">
+
+  </head>
+  <body>
+    <script src="/static/sketch.js"></script>
+
+    <!-- sockets -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+		<script type="text/javascript" charset="utf-8">
+		    var socket = io();
+		    socket.on('connect', function() {
+		    	// callback on connection
+
+		    	// TO DO: figure out what to send on connection
+		    });
+
+		    socket.on('disconnect', function() {
+		    	// callback on disconnection
+		    })
+		</script>
+</body></html>

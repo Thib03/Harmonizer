@@ -297,7 +297,9 @@ class Chord {
     for(let n = 0; n < this.notes.length; n++) {
       chord.push(this.notes[n].n);
     }
-    console.log(chord);
+	  const midiJson = { chord: chord }
+		console.log("THIS IS JSON", midiJson);
+  	socket.emit('midi', midiJson)
   }
 }
 
@@ -438,7 +440,7 @@ function handleFile(file) {
 }
 
 function preload() {
-  font = loadFont('nunito.ttf');
+  font = loadFont('/static/nunito.ttf');
 }
 
 function setup() {
