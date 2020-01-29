@@ -9,12 +9,20 @@ app.config['ENV'] = 'development'
 
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-# to keep track of active clients
+
+
+#####   OSC client
+
 clients = []
+ips = ["127.0.0.1", "10.24.227.10"]
+port = 3000
 
-client = Client("127.0.0.1", 3000) # change with local external ip if necessary in Pd
-print("Setting up OSC client at", client.ip, "and port", client.port)
+for ip in ips:
+    client = Client(ip, port)
+    print("Setting up OSC client at", client.ip, "and port", client.port)
+    clients.append(client)
 
+######
 
 @app.route("/")
 def hello():
@@ -27,7 +35,9 @@ def handle_midi(json):
     chord = json['chord']
     if chord:
         print("Chord received", chord)
-        client.send(chord, "/chords")
+        for client in clients:
+            print("Sending chord", chord, "to IP", client.ip)
+            client.send(chord, "/chords")
         return "Success"
     else:
         return "Failure"

@@ -14,11 +14,17 @@ class Client:
 
 
 if __name__ == '__main__':
-    client = Client()
+    port = 3000
+    ips = ["127.0.0.1", "10.24.227.10"]
+    clients = []
+    for ip in ips:
+        client = Client(ip, port)
+        clients.append(client)
     chord_length = 4
     # regularyly generate random chords in range [60, 72]
     while True:
         chord = [random.randint(60, 72) for i in range(chord_length)]
-        print("Sending chord", chord)
-        client.send(chord, "/chords")
+        for client in clients:
+            print("Sending chord", chord, "to IP", client.ip)
+            client.send(chord, "/chords")
         time.sleep(5)
