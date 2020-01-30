@@ -23,7 +23,7 @@ if __name__ == '__main__':
     chord_length = 4
     # regularyly generate random chords in range [60, 72]
     while True:
-        chord = [random.randint(60, 72) for i in range(chord_length)]
+        chord = [random.randint(0, 11) for i in range(chord_length)]
         for client in clients:
             print("Sending chord", chord, "to IP", client.ip)
             client.send(chord, "/chords")
